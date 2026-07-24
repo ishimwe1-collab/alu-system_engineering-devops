@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Ceci n'est pas une page" > /usr/share/nginx/html/404.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
-sed -i '/server_name localhost;/a \
-        error_page 404 /404.html;\
-\
-        location = /404.html {\
-                internal;\
-        }' /etc/nginx/sites-available/default
+sed -i '/server_name _;/a \
+    error_page 404 /404.html;' /etc/nginx/sites-available/default
 
 service nginx restart
