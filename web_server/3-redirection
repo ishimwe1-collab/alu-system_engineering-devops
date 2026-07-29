@@ -1,13 +1,27 @@
 #!/usr/bin/env bash
-# Configures an Nginx server so that /redirect_me redirects to another page
-# The redirection is a "301 Moved Permanently"
+# Configures Nginx so that /redirect_me returns a 301 redirect
 
-sudo apt-get update
-sudo apt-get -y install nginx ufw
-sudo ufw allow 'Nginx HTTP'
-echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
+apt-get update -y
+apt-get install -y nginx
 
-# Add redirect rule for /redirect_me using a rewrite rule
-sudo sed -i 's|server_name _;|server_name _;\n\trewrite ^/redirect_me https://www.youtube.com/ permanent;|' /etc/nginx/sites-available/default
+echo "Holberton School" > /var/www/html/index.html
 
-sudo service nginx restart
+cat > /etc/nginx/sites-available/default <<'EOF'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html;
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}
+EOF
+
+service nginx restart
