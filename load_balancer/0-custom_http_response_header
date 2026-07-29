@@ -1,12 +1,26 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2154
 
-# Update & install nginx (use sudo inside script)
-sudo apt-get update -y
-sudo apt-get install -y nginx
+apt-get update -y
+apt-get install -y nginx
 
-# Add custom header to nginx config
-echo 'add_header X-Served-By $hostname;' | sudo tee /etc/nginx/conf.d/custom_header.conf
+echo "Holberton School" > /var/www/html/index.html
 
-# Restart nginx
-sudo service nginx restart
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+        add_header X-Served-By \$hostname always;
+    }
+}
+EOF
+
+nginx -t && systemctl restart nginx
