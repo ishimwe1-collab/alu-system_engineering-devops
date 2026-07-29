@@ -13,7 +13,13 @@ $SUDO apt-get update -y
 $SUDO apt-get install -y nginx
 
 echo "Holberton School" | $SUDO tee /var/www/html/index.html > /dev/null
-echo "Ceci n'est pas une page" | $SUDO tee /var/www/html/404.html > /dev/null
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/5-design_a_beautiful_404_page.html" ]; then
+    $SUDO cp "$SCRIPT_DIR/5-design_a_beautiful_404_page.html" /var/www/html/404.html
+else
+    echo "Ceci n'est pas une page" | $SUDO tee /var/www/html/404.html > /dev/null
+fi
 
 $SUDO tee /etc/nginx/sites-available/default > /dev/null <<'EOF'
 server {
@@ -35,4 +41,5 @@ server {
 }
 EOF
 
+$SUDO nginx -t
 $SUDO service nginx restart

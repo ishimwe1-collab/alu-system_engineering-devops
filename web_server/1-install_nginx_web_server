@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
 # Installs and configures Nginx on an Ubuntu machine
 
-set -e
+apt-get update
+apt-get -y install nginx
 
-if [ "$(id -u)" -ne 0 ]; then
-    SUDO=sudo
-else
-    SUDO=
-fi
+echo "Holberton School for the win!" > /var/www/html/index.html
 
-$SUDO apt-get update -y
-$SUDO apt-get install -y nginx
-
-echo "Holberton School for the win!" | $SUDO tee /var/www/html/index.html > /dev/null
-
-$SUDO service nginx restart
-
+service nginx restart
