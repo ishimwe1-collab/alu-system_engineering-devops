@@ -15,3 +15,4 @@ $SUDO apt-get install -y nginx
 echo "Holberton School for the win!" | $SUDO tee /var/www/html/index.html > /dev/null
 
 $SUDO service nginx restart
+

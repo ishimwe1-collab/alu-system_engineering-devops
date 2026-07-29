@@ -14,7 +14,7 @@ $SUDO apt-get install -y nginx
 
 echo "Holberton School" | $SUDO tee /var/www/html/index.html > /dev/null
 
-cat > /tmp/default_nginx_conf <<'EOF'
+$SUDO tee /etc/nginx/sites-available/default > /dev/null <<'EOF'
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -32,5 +32,4 @@ server {
 }
 EOF
 
-$SUDO cp /tmp/default_nginx_conf /etc/nginx/sites-available/default
 $SUDO service nginx restart
