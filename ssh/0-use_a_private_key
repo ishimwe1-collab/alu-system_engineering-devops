@@ -1,3 +1,2 @@
-#!/usr/bin/env bash
-# Connects to a server using a private key
-ssh -i ~/.ssh/school ubuntu@3.95.16.158
+#!/usr/bin/env bash 
+ssh -i ~/.ssh/school ubuntu@"$1"
